@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Blockchain</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .card h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: #667eea;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #dd7723;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #4299e1;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: #718096;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .book-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status-available {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        .status-borrowed {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .blockchain-container {
+            margin-top: 20px;
+        }
+
+        .block-card {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #48bb78;
+            transition: all 0.3s;
+        }
+
+        .block-card:hover {
+            transform: translateX(5px);
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .block-number {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 1.1rem;
+        }
+
+        .block-hash {
+            font-family: monospace;
+            background: #edf2f7;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #4299e1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+            }
+            
+            input {
+                min-width: 100%;
+            }
+            
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-book"></i> Library Management System</h1>
+            <p>Secure • Transparent • Immutable Book Transactions</p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-plus-circle"></i> Add New Book</h2>
+            <div class="form-group">
+                <input type="text" id="title" placeholder="📖 Book Title (e.g., Harry Potter)">
+                <input type="text" id="author" placeholder="✍️ Author (e.g., J.K. Rowling)">
+                <button class="btn btn-primary" onclick="addBook()">
+                    <i class="fas fa-plus"></i> Add Book
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-book-open"></i> Available Books</h2>
+            <div id="books" class="books-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading books...
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-link"></i> Blockchain</h2>
+            <button class="btn btn-info" onclick="loadBlockchain()">
+                <i class="fas fa-sync-alt"></i> Refresh Blockchain
+            </button>
+            <div id="blockchain" class="blockchain-container">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading blockchain...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Load books on startup
+    loadBooks();
+    loadBlockchain();
+
+    async function loadBooks() {
+        try {
+            const response = await fetch('/api/books');
+            const books = await response.json();
+            
+            document.getElementById('books').innerHTML = books.map(book => `
+                <div class="book-card">
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">by ${book.author}</div>
+                    <div class="book-status ${book.available ? 'status-available' : 'status-borrowed'}">
+                        ${book.available ? '✅ Available' : '❌ Borrowed'}
+                    </div>
+                    <div class="book-actions">
+                        ${book.available ? 
+                            `<button class="btn btn-success" onclick="borrowBook('${book.id}')">
+                                <i class="fas fa-hand-holding"></i> Borrow
+                            </button>` : 
+                            `<button class="btn btn-warning" onclick="returnBook('${book.id}')">
+                                <i class="fas fa-undo"></i> Return
+                            </button>`
+                        }
+                    </div>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading books:', error);
+            document.getElementById('books').innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-exclamation-triangle"></i> Error loading books
+                </div>
+            `;
+        }
+    }
+
+    async function addBook() {
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        
+        if (!title || !author) {
+            alert('Please enter both title and author!');
+            return;
+        }
+        
+        try {
+            await fetch('/api/books', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, author })
+            });
+            
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            await loadBooks();
+            await loadBlockchain();
+        } catch (error) {
+            console.error('Error adding book:', error);
+            alert('Error adding book');
+        }
+    }
+
+    async function borrowBook(bookId) {
+        const userName = prompt('Enter your name to borrow:');
+        if (userName) {
+            try {
+                await fetch(`/api/books/${bookId}/borrow`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userName })
+                });
+                await loadBooks();
+                await loadBlockchain();
+            } catch (error) {
+                console.error('Error borrowing book:', error);
+                alert('Error borrowing book');
+            }
+        }
+    }
+
+    async function returnBook(bookId) {
+        const userName = prompt('Enter your name to return:');
+        if (userName) {
+            try {
+                await fetch(`/api/books/${bookId}/return`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userName })
+                });
+                await loadBooks();
+                await loadBlockchain();
+            } catch (error) {
+                console.error('Error returning book:', error);
+                alert('Error returning book');
+            }
+        }
+    }
+
+    async function loadBlockchain() {
+        try {
+            const response = await fetch('/api/blockchain');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const blockchain = await response.json();
+            
+            console.log('Blockchain data received:', blockchain);
+            
+            if (!Array.isArray(blockchain)) {
+                throw new Error('Blockchain data is not an array');
+            }
+            
+            document.getElementById('blockchain').innerHTML = blockchain.map((block, index) => `
+                <div class="block-card">
+                    <div class="block-header">
+                        <span class="block-number">
+                            <i class="fas fa-cube"></i> Block ${index + 1}
+                        </span>
+                        <span class="block-hash">${block.hash ? block.hash.substring(0, 15) + '...' : 'No hash'}</span>
+                    </div>
+                    <div style="margin: 10px 0; color: #718096;">
+                        <i class="far fa-clock"></i> ${block.timestamp ? new Date(block.timestamp).toLocaleString() : 'Unknown time'}
+                    </div>
+                    <div style="font-weight: bold; margin-bottom: 10px;">
+                        <i class="fas fa-exchange-alt"></i> Transactions: ${block.transactions ? block.transactions.length : 0}
+                    </div>
+                    ${block.transactions ? block.transactions.map(trans => `
+                        <div class="transaction-item">
+                            <strong>${trans.action ? trans.action.toUpperCase() : 'UNKNOWN'}</strong> 
+                            ${trans.bookId ? `- Book ID: ${trans.bookId.substring(0, 8)}...` : '- System'}
+                            <br>
+                            <small>User: ${trans.user || 'Unknown'} • ${trans.timestamp ? new Date(trans.timestamp).toLocaleTimeString() : ''}</small>
+                        </div>
+                    `).join('') : '<div>No transactions</div>'}
+                </div>
+            `).join('');
+            
+        } catch (error) {
+            console.error('Error loading blockchain:', error);
+            document.getElementById('blockchain').innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-exclamation-triangle"></i> Error loading blockchain: ${error.message}
+                </div>
+            `;
+        }
+    }
+</script>
+</body>
+</html>
